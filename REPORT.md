@@ -90,7 +90,13 @@ Họ tên: Võ Đức Tài
   1. *Kích thước và hình dạng box:* Vết nứt có hình dạng thanh mảnh, kéo dài ngoằn ngoèo, diện tích trung vị rất nhỏ (chỉ chiếm ~0.7% diện tích ảnh). Khi ảnh 640×360 bị nén thành 220 vision tokens, thông tin chi tiết biên dạng ở mức điểm ảnh bị mất mát đáng kể, khiến mô hình khó xác định chính xác 4 toạ độ bao quanh vết nứt để đạt IoU >= 0.5.
   2. *Độ nhập nhằng ngữ nghĩa (Semantic Ambiguity):* Các vết nứt rất dễ bị nhầm lẫn với vệt sơn đường mờ, khe co giãn bê tông, hoặc bóng đổ của cây cối/cột điện trên mặt đường, dẫn đến tỷ lệ False Positives cao.
   3. *So sánh với các lớp khác:* Ngược lại, lớp `manhole` (nắp cống, F1 ≈ 0.562–0.612) có hình dạng hình học tròn/chữ nhật rõ ràng, tương phản cao với mặt đường, nên mô hình nhận diện chính xác nhất.
-- **Ảnh minh hoạ:** Đã lưu các ảnh phân tích dự đoán đúng/sai vào `report/images/` (các mẫu với box xanh lá GT và box đỏ Pred).
+- **Ảnh minh hoạ:** Đã lưu 6 ảnh phân tích dự đoán đúng/sai vào `report/images/` (các mẫu với box xanh lá Ground Truth `GT:` và box đỏ Prediction `Pred:`):
+  1. `report/images/sample_1.jpg`: Nhận diện ổ gà (pothole) chính xác cao (True Positive, IoU > 0.85, hai box GT và Pred gần như trùng khớp).
+  2. `report/images/sample_2.jpg`: Nhận diện vết nứt (crack) - Vết nứt bên trái phát hiện đúng (TP), nhưng bóng đổ của cây bên lề đường bị đoán nhầm thành crack (False Positive).
+  3. `report/images/sample_3.jpg`: Nhận diện nắp cống (manhole) - Dạng hình học tròn/bầu dục rõ ràng và độ tương phản cao giúp mô hình định vị chính xác hoàn hảo (True Positive).
+  4. `report/images/sample_4.jpg`: Bối cảnh hỗn hợp - Ổ gà to ở cự ly gần được nhận diện tốt (TP), nhưng vết nứt nhỏ li ti ở xa bị bỏ sót hoàn toàn (False Negative).
+  5. `report/images/sample_5.jpg`: Thách thức vết nứt ở khoảng cách xa - Độ phân giải thấp khi bị nén vào 220 visual tokens khiến box dự đoán bị lệch biên dạng (IoU < 0.5).
+  6. `report/images/sample_6.jpg`: Đa đối tượng (Multi-class) - Cả nắp cống (manhole) và ổ gà (pothole) xuất hiện đồng thời, mô hình phân loại và định vị chính xác cả 2 nhãn.
 
 ### Câu 10 — E4: bạn đổi biến nào, kết quả thế nào, và kết luận có đáng tin không?
 - **Biến ablation lựa chọn:** Khảo sát ảnh hưởng của **LoRA Rank** (rank r=4, alpha=8 so với baseline r=16, alpha=32 trên setup E1).
